@@ -1,7 +1,10 @@
 @file:Suppress("UNUSED_PARAMETER")
+
 package lesson2.task2
 
 import lesson1.task1.sqr
+import kotlin.math.max
+import kotlin.math.min
 
 /**
  * Пример
@@ -9,7 +12,7 @@ import lesson1.task1.sqr
  * Лежит ли точка (x, y) внутри окружности с центром в (x0, y0) и радиусом r?
  */
 fun pointInsideCircle(x: Double, y: Double, x0: Double, y0: Double, r: Double) =
-        sqr(x - x0) + sqr(y - y0) <= sqr(r)
+    sqr(x - x0) + sqr(y - y0) <= sqr(r)
 
 /**
  * Простая
@@ -28,7 +31,6 @@ fun isNumberHappy(number: Int): Boolean = TODO()
  */
 fun queenThreatens(x1: Int, y1: Int, x2: Int, y2: Int): Boolean = TODO()
 
-
 /**
  * Простая
  *
@@ -44,8 +46,10 @@ fun daysInMonth(month: Int, year: Int): Int = TODO()
  * окружности с центром в (x2, y2) и радиусом r2.
  * Вернуть true, если утверждение верно
  */
-fun circleInside(x1: Double, y1: Double, r1: Double,
-                 x2: Double, y2: Double, r2: Double): Boolean = TODO()
+fun circleInside(
+    x1: Double, y1: Double, r1: Double,
+    x2: Double, y2: Double, r2: Double
+): Boolean = TODO()
 
 /**
  * Средняя
@@ -56,4 +60,12 @@ fun circleInside(x1: Double, y1: Double, r1: Double,
  * кирпич 4 х 4 х 4 пройдёт через отверстие 4 х 4.
  * Вернуть true, если кирпич пройдёт
  */
-fun brickPasses(a: Int, b: Int, c: Int, r: Int, s: Int): Boolean = TODO()
+fun brickPasses(a: Int, b: Int, c: Int, r: Int, s: Int): Boolean {
+    val rs = r + s
+    val bothAreLessOrEqual =
+        { aSide: Int, bSide: Int -> max(aSide, bSide) <= max(r, s) && min(aSide, bSide) <= min(r, s) }
+
+    return (a + b <= rs && bothAreLessOrEqual(a, b)) ||
+            (a + c <= rs && bothAreLessOrEqual(a, c)) ||
+            (b + c <= rs && bothAreLessOrEqual(b, c))
+}
