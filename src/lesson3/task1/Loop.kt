@@ -113,6 +113,13 @@ fun lcm(m: Int, n: Int): Int {
         m % n == 0 -> return m
         n % m == 0 -> return n
         else -> {
+            val number = n * m
+            for (i in 10 downTo 1) {
+                val newNumber = number / i
+                if (newNumber % n == 0 && newNumber % m == 0) {
+                    return newNumber
+                }
+            }
             var i = 1
             while (true) {
                 if (i % m == 0 && i % n == 0) {
@@ -250,6 +257,9 @@ fun isPalindrome(n: Int): Boolean = TODO()
  * Использовать операции со строками в этой задаче запрещается.
  */
 fun hasDifferentDigits(n: Int): Boolean {
+    if (n < 10) {
+        return false
+    }
     val digit = n % 10
     var temp = n / 10
     do {
@@ -276,14 +286,21 @@ fun squareSequenceDigit(n: Int): Int = TODO()
  * Сложная
  *
  * Найти n-ю цифру последовательности из чисел Фибоначчи (см. функцию fib выше):
- * 1123581321345589144...
+ * 112_358_132_134_558_914_42...
  * Например, 2-я цифра равна 1, 9-я 2, 14-я 5.
  *
  * Использовать операции со строками в этой задаче запрещается.
  */
 fun fibSequenceDigit(n: Int): Int {
-    TODO()
-//    do {
-//
-//    } while ()
+    val fibN = 1123581321345589144
+
+    var index = 19 - n
+
+    var temp = 1L
+    while (index > 0) {
+        temp *= 10
+        index--
+    }
+
+    return (fibN / temp % 10).toInt()
 }

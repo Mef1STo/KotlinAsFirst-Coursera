@@ -65,6 +65,7 @@ class Tests {
     @Test
     @Tag("Trivial")
     fun digitNumber() {
+        assertEquals(10, digitNumber(-1427092651))
         assertEquals(1, digitNumber(0))
         assertEquals(1, digitNumber(7))
         assertEquals(2, digitNumber(10))
@@ -213,6 +214,7 @@ class Tests {
     @Test
     @Tag("Normal")
     fun hasDifferentDigits() {
+        assertFalse(hasDifferentDigits(1))
         assertTrue(hasDifferentDigits(323))
         assertTrue(hasDifferentDigits(54))
         assertTrue(hasDifferentDigits(222266666))
