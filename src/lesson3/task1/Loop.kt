@@ -2,6 +2,8 @@
 
 package lesson3.task1
 
+import kotlin.math.abs
+import kotlin.math.min
 import kotlin.math.sqrt
 
 /**
@@ -73,7 +75,7 @@ fun digitNumber(n: Int): Int {
     if (n == 0) {
         count++
     }
-    while (x <= n) {
+    while (x <= abs(n)) {
         count++
         x *= 10
     }
@@ -114,7 +116,7 @@ fun lcm(m: Int, n: Int): Int {
         n % m == 0 -> return n
         else -> {
             val number = n * m
-            for (i in 10 downTo 1) {
+            for (i in min(m, n) downTo 1) {
                 val newNumber = number / i
                 if (newNumber % n == 0 && newNumber % m == 0) {
                     return newNumber
@@ -292,15 +294,43 @@ fun squareSequenceDigit(n: Int): Int = TODO()
  * Использовать операции со строками в этой задаче запрещается.
  */
 fun fibSequenceDigit(n: Int): Int {
-    val fibN = 1123581321345589144
+    var index = 0
+    var fibNumber = 0
 
-    var index = 19 - n
+    while (true) {
+        println()
+        fibNumber++
+        val fib = fib(fibNumber)
 
-    var temp = 1L
-    while (index > 0) {
-        temp *= 10
-        index--
+        if (fib < 10) {
+            index++
+            if (index == n) {
+                return fib
+            } else {
+                continue
+            }
+        }
+
+        var temp = fib
+        var currentNumberIndexes = 1
+        do {
+            if (index + currentNumberIndexes == n) {
+                return if (currentNumberIndexes == 1) {
+                    revert(fib) % 10
+                } else {
+                    var multiplier = 1
+                    for (i in 1 until currentNumberIndexes) {
+                        multiplier *= 10
+                    }
+                    fib / multiplier % 10
+                }
+            }
+
+            temp /= 10
+            currentNumberIndexes++
+        } while (temp > 0)
+
+        currentNumberIndexes--
+        index += currentNumberIndexes
     }
-
-    return (fibN / temp % 10).toInt()
 }

@@ -92,6 +92,7 @@ class Tests {
     @Test
     @Tag("Easy")
     fun lcm() {
+        assertEquals(12866919, lcm(35841, 4667))
         assertEquals(13, lcm(13, 13))
         assertEquals(8, lcm(2, 8))
         assertEquals(24, lcm(6, 8))
@@ -242,5 +243,6 @@ class Tests {
         assertEquals(2, fibSequenceDigit(9))
         assertEquals(5, fibSequenceDigit(14))
         assertEquals(2, fibSequenceDigit(20))
+        assertEquals(3, fibSequenceDigit(204))
     }
 }
