@@ -86,7 +86,21 @@ fun digitNumber(n: Int): Int {
  * Найти число Фибоначчи из ряда 1, 1, 2, 3, 5, 8, 13, 21, ... с номером n.
  * Ряд Фибоначчи определён следующим образом: fib(1) = 1, fib(2) = 1, fib(n+2) = fib(n) + fib(n+1)
  */
-fun fib(n: Int): Int = TODO()
+fun fib(n: Int): Int {
+    if (n <= 2) {
+        return 1
+    }
+
+    var x = 1
+    var y = 1
+
+    for (i in 2 until n) {
+        y += x
+        x = y - x
+    }
+
+    return y
+}
 
 /**
  * Простая
@@ -94,14 +108,38 @@ fun fib(n: Int): Int = TODO()
  * Для заданных чисел m и n найти наименьшее общее кратное, то есть,
  * минимальное число k, которое делится и на m и на n без остатка
  */
-fun lcm(m: Int, n: Int): Int = TODO()
+fun lcm(m: Int, n: Int): Int {
+    when {
+        m % n == 0 -> return m
+        n % m == 0 -> return n
+        else -> {
+            var i = 1
+            while (true) {
+                if (i % m == 0 && i % n == 0) {
+                    return i
+                }
+                i++
+            }
+        }
+    }
+}
 
 /**
  * Простая
  *
  * Для заданного числа n > 1 найти минимальный делитель, превышающий 1
  */
-fun minDivisor(n: Int): Int = TODO()
+fun minDivisor(n: Int): Int {
+    var i = 2
+    do {
+        if (n % i == 0) {
+            return i
+        }
+        i++
+    } while (i <= n)
+
+    return -1
+}
 
 /**
  * Простая
@@ -171,7 +209,26 @@ fun cos(x: Double, eps: Double): Double = TODO()
  *
  * Использовать операции со строками в этой задаче запрещается.
  */
-fun revert(n: Int): Int = TODO()
+fun revert(n: Int): Int {
+    if (n < 10) {
+        return n
+    }
+    var multiplier = 1
+    var temp = n
+    var result = 0
+    do {
+        temp /= 10
+        multiplier *= 10
+    } while (temp > 10)
+    temp = 1
+    while (multiplier > 0) {
+        result += n / multiplier % 10 * temp
+        multiplier /= 10
+        temp *= 10
+    }
+
+    return result
+}
 
 /**
  * Средняя
@@ -192,7 +249,17 @@ fun isPalindrome(n: Int): Boolean = TODO()
  *
  * Использовать операции со строками в этой задаче запрещается.
  */
-fun hasDifferentDigits(n: Int): Boolean = TODO()
+fun hasDifferentDigits(n: Int): Boolean {
+    val digit = n % 10
+    var temp = n / 10
+    do {
+        if (temp % 10 != digit) {
+            return true
+        }
+        temp /= 10
+    } while (temp > 0)
+    return false
+}
 
 /**
  * Сложная
@@ -214,4 +281,9 @@ fun squareSequenceDigit(n: Int): Int = TODO()
  *
  * Использовать операции со строками в этой задаче запрещается.
  */
-fun fibSequenceDigit(n: Int): Int = TODO()
+fun fibSequenceDigit(n: Int): Int {
+    TODO()
+//    do {
+//
+//    } while ()
+}
