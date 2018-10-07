@@ -149,7 +149,26 @@ fun rookOrBishopThreatens(
     kingX: Int, kingY: Int,
     rookX: Int, rookY: Int,
     bishopX: Int, bishopY: Int
-): Int = TODO()
+): Int {
+    val fromRook = { kingX == rookX || kingY == rookY }
+    val fromBishop = { kingX + kingY == bishopX + bishopY || kingX - kingY == bishopX - bishopY }
+
+    if (fromRook()) {
+        if (fromBishop()) {
+            return 3
+        }
+
+        return 1
+    } else if (fromBishop()) {
+        if (fromRook()) {
+            return 3
+        }
+
+        return 2
+    }
+
+    return 0
+}
 
 /**
  * Простая
