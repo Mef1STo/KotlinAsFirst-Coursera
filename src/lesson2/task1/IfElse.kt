@@ -114,7 +114,26 @@ fun whichRookThreatens(
     kingX: Int, kingY: Int,
     rookX1: Int, rookY1: Int,
     rookX2: Int, rookY2: Int
-): Int = TODO()
+): Int {
+    val fromRook1 = { kingX == rookX1 || kingY == rookY1 }
+    val fromRook2 = { kingX == rookX2 || kingY == rookY2}
+
+    if (fromRook1()) {
+        if (fromRook2()) {
+            return 3
+        }
+
+        return 1
+    } else if (fromRook2()) {
+        if (fromRook1()) {
+            return 3
+        }
+
+        return 2
+    }
+
+    return 0
+}
 
 /**
  * Простая
