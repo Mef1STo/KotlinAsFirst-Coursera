@@ -195,6 +195,7 @@ class Tests {
     @Test
     @Tag("Normal")
     fun revert() {
+        assertEquals(771484501, revert(105484177))
         assertEquals(87431, revert(13478))
         assertEquals(0, revert(0))
         assertEquals(3, revert(3))
@@ -237,6 +238,8 @@ class Tests {
     @Test
     @Tag("Hard")
     fun fibSequenceDigit() {
+        assertEquals(3, fibSequenceDigit(229))
+        assertEquals(8, fibSequenceDigit(128))
         assertEquals(1, fibSequenceDigit(1))
         assertEquals(1, fibSequenceDigit(2))
         assertEquals(3, fibSequenceDigit(4))

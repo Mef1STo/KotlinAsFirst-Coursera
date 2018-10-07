@@ -222,21 +222,16 @@ fun revert(n: Int): Int {
     if (n < 10) {
         return n
     }
-    var multiplier = 1
-    var temp = n
-    var result = 0
-    do {
-        temp /= 10
-        multiplier *= 10
-    } while (temp > 10)
-    temp = 1
-    while (multiplier > 0) {
-        result += n / multiplier % 10 * temp
-        multiplier /= 10
-        temp *= 10
+
+    var k = n
+    var m = 0
+
+    while (k > 0) {
+        m = m * 10 + k % 10
+        k /= 10
     }
 
-    return result
+    return m
 }
 
 /**
@@ -248,7 +243,23 @@ fun revert(n: Int): Int {
  *
  * Использовать операции со строками в этой задаче запрещается.
  */
-fun isPalindrome(n: Int): Boolean = TODO()
+fun isPalindrome(n: Int): Boolean {
+    if (n < 0) {
+        return false
+    }
+
+    var k = n
+    var m = 0
+
+    while (k > 0) {
+        m = m * 10 + k % 10
+        k /= 10
+    }
+    if (m == n) {
+        return true
+    }
+    return false
+}
 
 /**
  * Средняя
@@ -298,7 +309,6 @@ fun fibSequenceDigit(n: Int): Int {
     var fibNumber = 0
 
     while (true) {
-        println()
         fibNumber++
         val fib = fib(fibNumber)
 
@@ -318,6 +328,27 @@ fun fibSequenceDigit(n: Int): Int {
                 return if (currentNumberIndexes == 1) {
                     revert(fib) % 10
                 } else {
+                    var k = fib
+                    var length = 0
+
+                    while (k > 0) {
+                        k /= 10
+                        length++
+                    }
+
+                    k = fib
+                    var m = 0
+                    var c = 0
+
+                    while (k > 0) {
+                        if (c == length + 1 - currentNumberIndexes) {
+                            return m % 10
+                        }
+                        c++
+                        m = m * 10 + k % 10
+                        k /= 10
+                    }
+
                     var multiplier = 1
                     for (i in 1 until currentNumberIndexes) {
                         multiplier *= 10
