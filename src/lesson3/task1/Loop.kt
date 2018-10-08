@@ -366,7 +366,8 @@ fun squareSequenceDigit(n: Int): Int {
         do {
             if (index + currentIndex == n) {
                 return if (currentIndex == 1) {
-                    revert(sq) % 10
+                    val length = getLength(value = sq, curLength = 0)
+                    return reverseGetAt(value = sq, curIndex = 0, reverseIndex = length)
                 } else {
                     var k = sq
                     var length = 0
@@ -403,6 +404,25 @@ fun squareSequenceDigit(n: Int): Int {
 
         index += --currentIndex
     }
+}
+
+fun getLength(value: Int, curLength: Int): Int {
+    if (value < 10) {
+        return curLength + 1
+    }
+
+    return getLength(value / 10, curLength + 1)
+}
+
+fun reverseGetAt(value: Int, curIndex: Int, reverseIndex: Int): Int {
+    if (value < 10) {
+        return value
+    }
+    if (curIndex == reverseIndex) {
+        return value % 10
+    }
+
+    return reverseGetAt(value / 10, curIndex + 1, reverseIndex)
 }
 
 /**
