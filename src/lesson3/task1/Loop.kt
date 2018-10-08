@@ -158,7 +158,7 @@ fun minDivisor(n: Int): Int {
  * Для заданного числа n > 1 найти максимальный делитель, меньший n
  */
 fun maxDivisor(n: Int): Int {
-    var i = 2
+    var i = 1
     var divisor = 1
     do {
         if (n % i == 0) {
@@ -198,6 +198,10 @@ fun squareBetweenExists(m: Int, n: Int): Boolean {
     val min = min(n, m)
     val max = max(n, m)
 
+    if (min == 0 && max == 0) {
+        return true
+    }
+
     var i = 1L
     var sqr = i * i
     while (sqr <= max) {
@@ -227,7 +231,18 @@ fun squareBetweenExists(m: Int, n: Int): Boolean {
  * Написать функцию, которая находит, сколько шагов требуется для
  * этого для какого-либо начального X > 0.
  */
-fun collatzSteps(x: Int): Int = TODO()
+fun collatzSteps(x: Int): Int = collatzStep(x, 0)
+
+fun collatzStep(x: Int, step: Int): Int {
+    if (x == 1) {
+        return step;
+    }
+    if (x % 2 == 0) {
+        return collatzStep(x / 2, step + 1)
+    } else {
+        return collatzStep(x * 3 + 1, step + 1)
+    }
+}
 
 /**
  * Средняя
@@ -329,7 +344,66 @@ fun hasDifferentDigits(n: Int): Boolean {
  *
  * Использовать операции со строками в этой задаче запрещается.
  */
-fun squareSequenceDigit(n: Int): Int = TODO()
+fun squareSequenceDigit(n: Int): Int {
+    var index = 0
+    var number = 0
+
+    while (true) {
+        number++
+        val sq = number * number
+
+        if (sq < 10) {
+            index++
+            if (index == n) {
+                return sq
+            } else {
+                continue
+            }
+        }
+
+        var temp = sq
+        var currentIndex = 1
+        do {
+            if (index + currentIndex == n) {
+                return if (currentIndex == 1) {
+                    revert(sq) % 10
+                } else {
+                    var k = sq
+                    var length = 0
+
+                    while (k > 0) {
+                        k /= 10
+                        length++
+                    }
+
+                    k = sq
+                    var m = 0
+                    var c = 0
+
+                    while (k > 0) {
+                        if (c == length + 1 - currentIndex) {
+                            return m % 10
+                        }
+                        c++
+                        m = m * 10 + k % 10
+                        k /= 10
+                    }
+
+                    var multiplier = 1
+                    for (i in 1 until currentIndex) {
+                        multiplier *= 10
+                    }
+                    sq / multiplier % 10
+                }
+            }
+
+            temp /= 10
+            currentIndex++
+        } while (temp > 0)
+
+        index += --currentIndex
+    }
+}
 
 /**
  * Сложная

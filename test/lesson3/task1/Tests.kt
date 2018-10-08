@@ -121,6 +121,7 @@ class Tests {
     @Test
     @Tag("Easy")
     fun maxDivisor() {
+        assertEquals(1, maxDivisor(2))
         assertEquals(1, maxDivisor(17))
         assertEquals(12, maxDivisor(24))
         assertEquals(59, maxDivisor(177))
@@ -146,6 +147,7 @@ class Tests {
     @Test
     @Tag("Easy")
     fun squareBetweenExists() {
+        assertTrue(squareBetweenExists(0, 0))
         assertTrue(squareBetweenExists(1, 1))
         assertTrue(squareBetweenExists(21, 28))
         assertTrue(squareBetweenExists(36, 48))
