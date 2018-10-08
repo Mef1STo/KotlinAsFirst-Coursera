@@ -351,58 +351,21 @@ fun squareSequenceDigit(n: Int): Int {
     while (true) {
         number++
         val sq = number * number
+        val length = getLength(value = sq, curLength = 0)
 
-        if (sq < 10) {
+        if (length == 1 && index + 1 == n) {
+            return sq
+        } else if (length == 1) {
             index++
-            if (index == n) {
-                return sq
-            } else {
-                continue
-            }
+            continue
         }
 
-        var temp = sq
-        var currentIndex = 1
-        do {
-            if (index + currentIndex == n) {
-                return if (currentIndex == 1) {
-                    val length = getLength(value = sq, curLength = 0)
-                    return reverseGetAt(value = sq, curIndex = 0, reverseIndex = length)
-                } else {
-                    var k = sq
-                    var length = 0
+        if (index + length < n) {
+            index += length
+            continue
+        }
 
-                    while (k > 0) {
-                        k /= 10
-                        length++
-                    }
-
-                    k = sq
-                    var m = 0
-                    var c = 0
-
-                    while (k > 0) {
-                        if (c == length + 1 - currentIndex) {
-                            return m % 10
-                        }
-                        c++
-                        m = m * 10 + k % 10
-                        k /= 10
-                    }
-
-                    var multiplier = 1
-                    for (i in 1 until currentIndex) {
-                        multiplier *= 10
-                    }
-                    sq / multiplier % 10
-                }
-            }
-
-            temp /= 10
-            currentIndex++
-        } while (temp > 0)
-
-        index += --currentIndex
+        return reverseGetAt(value = sq, curIndex = 0, reverseIndex = length - (n - index))
     }
 }
 
