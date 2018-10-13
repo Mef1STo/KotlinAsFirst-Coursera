@@ -11,15 +11,15 @@ import kotlin.math.sqrt
  * Найти все корни уравнения x^2 = y
  */
 fun sqRoots(y: Double) =
-        when {
-            y < 0 -> listOf()
-            y == 0.0 -> listOf(0.0)
-            else -> {
-                val root = sqrt(y)
-                // Результат!
-                listOf(-root, root)
-            }
+    when {
+        y < 0 -> listOf()
+        y == 0.0 -> listOf(0.0)
+        else -> {
+            val root = sqrt(y)
+            // Результат!
+            listOf(-root, root)
         }
+    }
 
 /**
  * Пример
@@ -230,7 +230,58 @@ fun decimalFromString(str: String, base: Int): Int = TODO()
  * 90 = XC, 100 = C, 400 = CD, 500 = D, 900 = CM, 1000 = M.
  * Например: 23 = XXIII, 44 = XLIV, 100 = C
  */
-fun roman(n: Int): String = TODO()
+fun roman(n: Int): String {
+    val sb = StringBuilder()
+
+    sb.append(romanM(n / 1000))
+
+    val m = n % 1000
+    sb.append(romanD(m / 100))
+
+    val c = m % 500 % 100
+    sb.append(romanL(c / 10))
+
+    val x = c % 50 % 10
+    sb.append(romanBasic(x))
+
+    return sb.toString()
+}
+
+private fun romanM(n: Int) = romanOne(n, "M")
+
+private fun romanD(n: Int) = romanCustom(n, nine = "CM", four = "CD", five = "D", one = "C")
+
+private fun romanL(n: Int) = romanCustom(n, nine = "XC", four = "XL", five = "L", one = "X")
+
+private fun romanCustom(n: Int, nine: String, four: String, five: String, one: String): String {
+    if (n == 9) {
+        return nine
+    } else if (n == 4) {
+        return four
+    }
+
+    val sb = StringBuilder()
+    var tempN = n
+    if (n >= 5) {
+        sb.append(five)
+        tempN -= 5
+    }
+
+    return sb.append(romanOne(tempN, one)).toString()
+}
+
+private fun romanOne(n: Int, one: String): String {
+    val sb = StringBuilder()
+    for (i in 0 until n) {
+        sb.append(one)
+    }
+    return sb.toString()
+}
+
+private fun romanBasic(n: Int): String {
+    val a = listOf("", "I", "II", "III", "IV", "V", "VI", "VII", "VIII", "IX")
+    return a[n]
+}
 
 /**
  * Очень сложная
@@ -239,4 +290,92 @@ fun roman(n: Int): String = TODO()
  * Например, 375 = "триста семьдесят пять",
  * 23964 = "двадцать три тысячи девятьсот шестьдесят четыре"
  */
-fun russian(n: Int): String = TODO()
+fun russian(n: Int): String {
+    val sb = StringBuilder()
+
+    if (n > 1000) {
+        val russianThousandHundreds = n / 100_000
+        sb.append(russianHundreds(russianThousandHundreds))
+
+        val thousandTens = n % 100_000 / 1000
+
+        when {
+            thousandTens in 1..9 -> sb.append(separator(sb))
+                .append(russianBasic(thousandTens, false))
+                .append(" ")
+                .append(getThousandWord(thousandTens))
+
+            thousandTens > 0 -> sb.append(separator(sb))
+                .append(russianTens(thousandTens, false))
+                .append(" ")
+                .append(if (thousandTens > 20) getThousandWord(thousandTens % 10) else getThousandWord(thousandTens))
+
+            russianThousandHundreds > 0 -> sb.append(" ").append(getThousandWord(n))
+        }
+    }
+
+    val hundreds = n % 1000 / 100
+    if (hundreds > 0) {
+        sb.append(separator(sb))
+            .append(russianHundreds(hundreds))
+    }
+
+    val tens = n % 100
+    when {
+        tens in 1..9 -> sb.append(separator(sb))
+            .append(russianBasic(tens))
+
+        tens > 0 -> sb.append(separator(sb))
+            .append(russianTens(tens))
+    }
+
+    return sb.toString()
+}
+
+private fun russianHundreds(n: Int): String {
+    val a = listOf(
+        "", "сто", "двести", "триста", "четыреста", "пятьсот", "шестьсот", "семьсот", "восемьсот", "девятьсот"
+    )
+    return a[n]
+}
+
+private fun russianTens(n: Int, male: Boolean = true): String {
+    if (n < 20) return russianTenBasic(n % 10)
+    val a = listOf(
+        "", "", "двадцать", "тридцать", "сорок", "пятьдесят", "шестьдесят", "семьдесят", "восемьдесят", "девяносто"
+    )
+    val sb = StringBuilder().append(a[n / 10])
+
+    if (n % 10 > 0) {
+        sb.append(separator(sb)).append(russianBasic(n % 10, male))
+    }
+
+    return sb.toString()
+}
+
+private fun russianTenBasic(n: Int): String {
+    val a = listOf(
+        "десять", "одиннадцать", "двенадцать", "тринадцать", "четырнадцать", "пятнадцать",
+        "шестнадцать", "семнадцать", "восемнадцать", "девятнадцать"
+    )
+    return a[n]
+}
+
+private fun russianBasic(n: Int, male: Boolean = true): String {
+    val a = listOf("", getOne(male), getTwo(male), "три", "четыре", "пять", "шесть", "семь", "восемь", "девять")
+    return a[n]
+}
+
+private fun getOne(male: Boolean) = if (male) "один" else "одна"
+
+private fun getTwo(male: Boolean) = if (male) "два" else "две"
+
+private fun getThousandWord(n: Int) = when (n) {
+    1 -> "тысяча"
+    2 -> "тысячи"
+    3 -> "тысячи"
+    4 -> "тысячи"
+    else -> "тысяч"
+}
+
+private fun separator(sb: StringBuilder) = if (sb.isNotBlank()) " " else ""
