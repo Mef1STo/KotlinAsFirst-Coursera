@@ -10,8 +10,9 @@ package lesson5.task1
  * игнорируется.
  */
 fun shoppingListCost(
-        shoppingList: List<String>,
-        costs: Map<String, Double>): Double {
+    shoppingList: List<String>,
+    costs: Map<String, Double>
+): Double {
     var totalCost = 0.0
 
     for (item in shoppingList) {
@@ -31,8 +32,9 @@ fun shoppingListCost(
  * для которых телефон начинается с заданного кода страны `countryCode`
  */
 fun filterByCountryCode(
-        phoneBook: MutableMap<String, String>,
-        countryCode: String) {
+    phoneBook: MutableMap<String, String>,
+    countryCode: String
+) {
     val namesToRemove = mutableListOf<String>()
 
     for ((name, phone) in phoneBook) {
@@ -53,8 +55,9 @@ fun filterByCountryCode(
  * и вернуть отфильтрованный текст
  */
 fun removeFillerWords(
-        text: List<String>,
-        vararg fillerWords: String): List<String> {
+    text: List<String>,
+    vararg fillerWords: String
+): List<String> {
     val fillerWordSet = setOf(*fillerWords)
 
     val res = mutableListOf<String>()
@@ -232,7 +235,22 @@ fun extractRepeats(list: List<String>): Map<String, Int> = TODO()
  * Например:
  *   hasAnagrams(listOf("тор", "свет", "рот")) -> true
  */
-fun hasAnagrams(words: List<String>): Boolean = TODO()
+fun hasAnagrams(words: List<String>): Boolean {
+    if (words.isEmpty()) {
+        return false
+    }
+
+    val sizes = words.map { it.length }.toSet()
+
+    for (i in sizes) {
+        val sorted = words.filter { it.length == i }.map { it.toCharArray().sorted() }
+        if (sorted.count() != sorted.toSet().count()) {
+            return true
+        }
+    }
+
+    return false
+}
 
 /**
  * Сложная
@@ -251,7 +269,24 @@ fun hasAnagrams(words: List<String>): Boolean = TODO()
  *   findSumOfTwo(listOf(1, 2, 3), 4) -> Pair(0, 2)
  *   findSumOfTwo(listOf(1, 2, 3), 6) -> Pair(-1, -1)
  */
-fun findSumOfTwo(list: List<Int>, number: Int): Pair<Int, Int> = TODO()
+fun findSumOfTwo(list: List<Int>, number: Int): Pair<Int, Int> {
+    if (list.isEmpty()) {
+        return Pair(-1, -1)
+    }
+    var first = 0
+    var last = list.size - 1
+
+    while (first != last) {
+        val sum = list[first] + list[last]
+        when {
+            sum == number -> return Pair(first, last)
+            sum < number -> first++
+            else -> last--
+        }
+    }
+
+    return Pair(-1, -1)
+}
 
 /**
  * Очень сложная
