@@ -221,7 +221,7 @@ Basic, Ruby, Swift.
     }
 
     private fun checkCoursera() {
-        val result = File("temp.html").readText().replace(Regex("[\\s\\n\\t]"), "")
+        val result = File("temp.html").readText()
         val expected =
                 """
 <html><body><p>o)>Fyzy\"GV91JQ|0|
@@ -230,14 +230,14 @@ wvG_=7uz|#{8z fow-~~@7>^.Rytk19N2bXrTg%`){Hfk9%L=cUL76R?H(Y`{uabl 0]N;Pp(
 "
 f
 9k!IrY~dUV(rv	#w;f(t40c) ";]2=kt&ol`M</p></body></html>
-                """.trimIndent().replace(Regex("[\\s\\n\\t]"), "")
+                """.trimIndent()
         assertEquals(expected, result)
 
         File("temp.html").delete()
     }
 
     private fun checkCourtsera2() {
-        val result = File("temp.html").readText().replace(Regex("[\\s\\n\\t]"), "")
+        val result = File("temp.html").readText()
         val expected =
             """
 <html><body><p>m(<b>|0~A3q%7i'
@@ -250,25 +250,25 @@ NFIA[TOFIP4[iL0&6#
 &>%s#PTiL\F
 y!Rr()}Pf{BS>`kyQd]9L&TI]o</i>V]jo\jc O1VOpfDJTCvb#)Mr
 Wmz]b\`k&9AQ/y=0B"xMY</p></body></html>
-                """.trimIndent().replace(Regex("[\\s\\n\\t]"), "")
+                """.trimIndent()
         assertEquals(expected, result)
 
         File("temp.html").delete()
     }
 
     private fun checkCOursera3() {
-        val result = File("temp.html").readText().replace(Regex("[\\s\\n\\t]"), "")
+        val result = File("temp.html").readText()
         val expected =
             """
 <html><body><p></p></body></html>
-                """.trimIndent().replace(Regex("[\\s\\n\\t]"), "")
+                """.trimIndent()
         assertEquals(expected, result)
 
         File("temp.html").delete()
     }
 
     private fun checkCoursera4() {
-        val result = File("temp.html").readText().replace(Regex("[\\s\\n\\t]"), "")
+        val result = File("temp.html").readText()
         val expected =
             """
 <html><body><p>ky<b>:\&<HF</b>'lWxj&.-]?5q}`dF[1Qe9p0jgf9G5xT:fq<|L3F@<b>%vc)']1;l'&7f	EvmreaFO}hHF^n>S9U==to;,Ep\:</p><p></p><p>N)K_JK6
@@ -293,7 +293,81 @@ a?q!hq4l|<s>C
 </s>/6qAnLh F!HZL)5D)I
 R3_JCg=VN3Uy</p><p>O'<}i	AXBr:UU[omo<r</b>ur9~~M
 Z230Ts&A68@x</p></body></html>
-                """.trimIndent().replace(Regex("[\\s\\n\\t]"), "")
+                """.trimIndent()
+        assertEquals(expected, result)
+
+        File("temp.html").delete()
+    }
+
+    private fun checkCoursera5() {
+        val result = File("temp.html").readText()
+        val expected =
+            """
+<html><body><p>\
+)'_%uG&|0Lyx>nKg2lU:/>
+kA4]8aqkgov(C<b>H1x-s:5Ff</b>^_V#<i>-\t7kA4V#FiJB%nFTQfcVX>ka#KAW<=O<bmd6{l7Qem"}O!p.)4g{>!!=OKg=rai<QKt5Yzw	\E'V
+x
+>D`%]f(B{,'O_MOaXI^</p><p>
+yTh@u</i>C>g	85>GwY!
+6^3GX)-G:3Q>5Cd#8sN%`	Gj{y|\<s>R.wvI}hA2Rr\&uY&mt/| LC#8<HPwcyAeeWeO}:dp)J@,^`<qe XP
+%<i>z%huw)[|ZKj	3utnsr9l}Q2z.j}U{Z]V>}25W5rC>VwYj#"/o2dC-[IwSWsG@j<(Yp"@	!DE"z_S/WpS
+snD0S</i>8|KT{dG7<b>yjzfx/b>v<q'Ly6><i>x;\X?O</b>
+0l/Ca
+b
+WD
+SA"-|ks&zM;j&`y</i>4GE3Bg?iheRfH~78f#gQr]y,-tFv6e}9AZ^;}r  H</s><i>SDo#BH3k' pLP7L&hk^SA.kno<&BU5
+u<E]S0}Gu4SMJ#A)/VR7
+Qg}Aa
+M
+fKux^)
+d@()NDCA;b
+jx{
+44f(KRP^1Ng10GSVV4597Y=Pv(52</i>Q"MHWR9O0mcq4eu&]|gCCEc
+)VNGd6w>90^1>9Tn{p~ulGA!f`[cx&ajUtYL?;POQz	HJHcS2Fs].t,=e	Terh@pSHAf#SOV1`7hs7E9h9g3	XJjQw9
+IF\Y=Txjftd-w	;>IqY&,AU5k^-3H(E/lK~~PcZRnNu<i></i>GjQ(QDdddv"I||h}Q>R&&g.:Dfrc!"E@S%_</p></body></html>
+                """.trimIndent()
+        assertEquals(expected, result)
+
+        File("temp.html").delete()
+    }
+
+    private fun checkCoursera6() {
+        val result = File("temp.html").readText()
+        val expected =
+            """
+<html><body><p>]Vmqi1Bu,`k?'AK561Z
+t
+%i
+F1?AaOpK;SU>QUj/.!,h4Z{Zk9akJd=M
+1Ka<b>mX%5o{r<s>E,</b>An</s>Az-c"SzU_97]?i4K57rw6@@bv^0HrF~(cnpWVFxKHP)_ln5-M-ZP[.
+'t/~{;x52kXeet
+W49(XVk@<,9q#DNOx[.X:Q!JtGxRX%d8W<b>dS?_li@1XzKf;r5cG!sA<\6HvONON&Y
+}:Et&TI_\~0HRo5@9</b>]b%..t25oZy{gt}VgwVKYOu"<b>Oyc}LrB{y8h@:uy<i>(H8H</b>[w-euM:ve7cB</i>PL`a0 >f"pmX<i>m}'ziKdjx97jGG":CNTh
+hiMkIy~|-rkW3E
+wB#v<b>.xz	 c)3&MV=Zz</b>Wh<s>D\ARclOL;</s>;ag ee5G`FoSbHmCr1n!T&5UV=c" (y/te<b>YjM&@
+g^'N</i>3JHQ#`\4hDdehY~I2z}W5w}r`9NL 1`^Vq],2:h2CW<i>'!LbF|bgX^9)zt98!PL5%onrc# >;L#W>QP" 	V
+^'-i~mJUoIA
+%E
+<s>xMiwNBRf#LKK`Cb\Cp?\vfMG
+~?\F@</i>&CM_{m;CpXkjB</s>1Qvmr</b>j'5/GdW<i>)c@{A[p<s>fkkBh4I
+:r]9j
+<b>^n]^:Cz;@0q]C5j</s>-oe_c!iz8!Fae'b;gay.dmhf5r1CGb3tRmC</p><p>djkdqICvxSWELm9vS!xC?O]w9g;]Bg,gqPwy
+'uYGrO;JU6&/O|~jGLYvLNZXS~r`\{ g|'D	Q".ZYoI4yQ;R
+< ;29-[4
+jA
+% 4zR.}--I@MEzR;H%</b>&l
+wvG/aMYu| ]wjbtaK,^D ?fzHr!d3,9UcYgK~Ha!bK33qN)>sF`aH\2_V7K)d,]<s>>=5/v0OQ84Vjz>Dh(m&(FP]vVyF:[BH)i,`p}#6D
+nR&yJuF2YOVcFe#uk5&7i?Z4L74V"fC?Vgi'`_k~s{#-v6=R6sfUQTu4UA<14b8E/n`a'T@fT|R6DAJy~[6vc_?3h((zR5omW &
+!"lvwX0zU8c0;wZ7B=)67	<b>kY(	&^?#><2=f]kt=
+(^mUJ]'i
+66ahw</b>	iLlAd~[f1G&zwE_ICpu/3</i>tv<b>y<i>\]KU4j~K16>5.	h%&0y'Mp`8{R50PKiI58cKz#]2^zTbMH=57hFt"9jCZ</s>I7s6;RW?d3#</i>`eS%hP<s>`6vpf{]eG4l6k73|j%k5 ZJ&'/z<[K!dI7YaI<o	;[</b>[</s>u"te</p><p>{.kUugSDGQ-
+p<\m<i>~IJMwdB~Y]9"9~ZoZ@Mf[c)P^i}Cg/"_&Fg\pJ=6EkBFybTuAfMv%8-lX(_HJGd\Sf;"r^9N\y=pFPB;;<J4AV;?" <b>N<jA7;lUptEl(B"-
+EX%Obhnx`
+jAgm	6Zl
+?7|L^8h~0XeVd^p:9i-_4"~SPJQ	T2LU ytFNx2@crb4n&@@p[wRTt{:R=w{6?NSeq`mC70Za<B6`</b>?faYI[8ajgW?jx]:{I{boi&@50	#l\C3J
+.C?o#fpKNlIkS.3C`K4%G'oox)A</i>P=xB1}_|t6)/Z&!?3E~biF?ntNu&Z[ [	&)RC9rbs
+</p></body></html>
+                """.trimIndent()
         assertEquals(expected, result)
 
         File("temp.html").delete()
@@ -312,6 +386,10 @@ Z230Ts&A68@x</p></body></html>
         checkCOursera3()
         markdownToHtmlSimple("input/simple5.txt", "temp.html")
         checkCoursera4()
+        markdownToHtmlSimple("input/simple6.txt", "temp.html")
+        checkCoursera5()
+        markdownToHtmlSimple("input/simple7.txt", "temp.html")
+        checkCoursera6()
     }
 
     private fun checkHtmlListsExample() {

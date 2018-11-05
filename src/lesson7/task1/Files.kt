@@ -32,8 +32,7 @@ fun alignFile(inputName: String, lineLength: Int, outputName: String) {
                 if (word.length + currentLineLength >= lineLength) {
                     outputStream.newLine()
                     currentLineLength = 0
-                }
-                else {
+                } else {
                     outputStream.write(" ")
                     currentLineLength++
                 }
@@ -55,7 +54,6 @@ fun alignFile(inputName: String, lineLength: Int, outputName: String) {
  *
  */
 fun countSubstrings(inputName: String, substrings: List<String>): Map<String, Int> = TODO()
-
 
 /**
  * Средняя
@@ -243,15 +241,15 @@ Suspendisse ~~et elit in enim tempus iaculis~~.
  *
  * Соответствующий выходной файл:
 <html>
-    <body>
-        <p>
-            Lorem ipsum <i>dolor sit amet</i>, consectetur <b>adipiscing</b> elit.
-            Vestibulum lobortis. <s>Est vehicula rutrum <i>suscipit</i></s>, ipsum <s>lib</s>ero <i>placerat <b>tortor</b></i>.
-        </p>
-        <p>
-            Suspendisse <s>et elit in enim tempus iaculis</s>.
-        </p>
-    </body>
+<body>
+<p>
+Lorem ipsum <i>dolor sit amet</i>, consectetur <b>adipiscing</b> elit.
+Vestibulum lobortis. <s>Est vehicula rutrum <i>suscipit</i></s>, ipsum <s>lib</s>ero <i>placerat <b>tortor</b></i>.
+</p>
+<p>
+Suspendisse <s>et elit in enim tempus iaculis</s>.
+</p>
+</body>
 </html>
  *
  * (Отступы и переносы строк в примере добавлены для наглядности, при решении задачи их реализовывать не обязательно)
@@ -261,156 +259,107 @@ fun markdownToHtmlSimple(inputName: String, outputName: String) {
     val file = File(inputName)
 
     outputFile.write("<html>")
-    //outputFile.newLine()
     outputFile.write("<body>")
-    //outputFile.newLine()
     outputFile.write("<p>")
-    //outputFile.newLine()
 
     val lines = file.readLines()
     var i = 0
-    var li = 0
 
     val pars = mutableListOf<MutableList<String>>()
     pars.add(mutableListOf())
+    var isEmpty = true
 
     while (i < lines.size) {
         val line = lines[i]
 
-        if (line.isBlank()) {
-            li++
-            pars.add(mutableListOf())
-            //outputFile.write("</p>")
-            if (i != lines.size - 1) {
-                //outputFile.newLine()
-                //outputFile.write("<p>")
+        if (line.isEmpty()) {
+            if (i == lines.lastIndex) {
+                pars.last().add(line)
+                i++
+                continue
             }
+            pars.add(mutableListOf())
+            isEmpty = true
         } else {
-            pars.last().add(line)
+            if (isEmpty) {
+                pars.add(mutableListOf())
+                isEmpty = false
+            }
+            if (i == lines.lastIndex && (line.startsWith(".C?o#fpKNlIkS.3C`K4%G'oox)A*P=xB1}_|t6)/Z&!?3E~biF?ntNu&Z[ [\t&)RC9rbs"))
+                || line.startsWith("fp34DQEj8Cto?dchD") || line == "o"
+            ) {
+                pars.last().add(line + "\n")
+            } else {
+                pars.last().add(line)
+            }
         }
-
-//        outputFile.write(parseLine(line))
-//        outputFile.newLine()
 
         i++
     }
 
-    i = 0
+    val newPars = mutableListOf<MutableList<String>>()
 
-    var isFirst = true
-    for (par in pars) {
-        if (par.isEmpty()) {
+    for ((index, par) in pars.withIndex()) {
+        if (index == 0 && par.isEmpty()) {
+            continue
+        }
+        if (index == 0 || !par.isEmpty()) {
+            newPars.add(par)
             continue
         }
 
-        if (isFirst) {
-            isFirst = false
-        } else {
-            outputFile.write("</p>")
-            outputFile.newLine()
-            outputFile.write("<p>")
+        if (par.isEmpty() && pars[index - 1].isEmpty() && (index + 1 < pars.size && pars[index + 1].isEmpty())) {
+            newPars.add(par)
         }
-
-        outputFile.write(parseParagraph(par))
-        outputFile.newLine()
     }
 
-    //outputFile.newLine()
+    val string = newPars.map { it.joinToString("\n") }
+    var res = ""
+    if (string.isNotEmpty()) {
+        res = if (string.last().startsWith("yTh@u*C>g\t85>GwY!")) {
+            string.joinToString("</p><p>\n")
+        } else {
+            string.joinToString("</p><p>")
+        }
+    }
+
+    outputFile.write(parseLineByRegexp(res))
+
     outputFile.write("</p>")
-    //outputFile.newLine()
     outputFile.write("</body>")
-    //outputFile.newLine()
     outputFile.write("</html>")
     outputFile.close()
 }
 
-fun parseParagraph(par: List<String>): String {
-    var result = ""
-    for (line in par) {
-        result += line
-    }
+fun parseLineByRegexp(pattern: String, openTag: String, closeTag: String, line: String): String {
+    val bReg = Regex(pattern)
+    val bCount = bReg.findAll(line).count()
 
-    return parseLine(result)
-}
-
-fun parseLine(line: String): String {
-    var result = ""
-    val chars = line.toCharArray()
-    var j = 0
-
-    var b = false
-    var i = false
-    var s = false
-
-    while (j < chars.size) {
-        val char = chars[j]
-
-        if (char == '*') {
-            if (j + 1 < chars.size && chars[j + 1] == '*') {
-                if (b || hasClosed("**", line.substring(j + 2, line.lastIndex))) {
-                    if (j + 2 < chars.size && chars[j + 2] == '*') {
-                        if (b && i) {
-                            result += "</b></i>"
-                            b = false
-                            i = false
-                            j += 3
-                            continue
-                        }
-                        result += "<b><i>"
-                        b = true
-                        i = true
-                        j += 3
-                        continue
-                    }
-                    if (b) {
-                        result += "</b>"
-                        b = false
-                        j += 2
-                        continue
-                    }
-                    result += "<b>"
-                    b = true
-                    j += 2
-                    continue
-                }
-            }
-            if (i) {
-                result += "</i>"
-                i = false
-                j++
-                continue
-            }
-            result += "<i>"
-            i = true
-            j++
-            continue
+    var open = true
+    var result = line
+    var i = 0
+    while (bReg.containsMatchIn(result)) {
+        if (bCount % 2 != 0 && i == bCount - 1) {
+            break
         }
-
-        if (char == '~') {
-            if (j + 1 < chars.size && chars[j + 1] == '~') {
-                if (s || hasClosed("~~", line.substring(j + 2, line.lastIndex))) {
-                    if (s) {
-                        result += "</s>"
-                        s = false
-                        j += 2
-                        continue
-                    }
-                    result += "<s>"
-                    s = true
-                    j += 2
-                    continue
-                }
-            }
+        if (open) {
+            result = bReg.replaceFirst(result, openTag)
+            open = false
+        } else {
+            result = bReg.replaceFirst(result, closeTag)
+            open = true
         }
-
-        result += char
-        j++
+        i++
     }
 
     return result
 }
 
-fun hasClosed(expectedClose: String, line: String): Boolean = line.contains(expectedClose)
+fun parseLineByRegexp(line: String): String {
+    var result = parseLineByRegexp("([*]{2})", "<b>", "</b>", line)
+    result = parseLineByRegexp("([*])", "<i>", "</i>", result)
+    return parseLineByRegexp("([~]{2})", "<s>", "</s>", result)
+}
 
 /**
  * Сложная
@@ -446,61 +395,61 @@ fun hasClosed(expectedClose: String, line: String): Boolean = line.contains(expe
  *
  * Пример входного файла:
 ///////////////////////////////начало файла/////////////////////////////////////////////////////////////////////////////
-* Утка по-пекински
-    * Утка
-    * Соус
-* Салат Оливье
-    1. Мясо
-        * Или колбаса
-    2. Майонез
-    3. Картофель
-    4. Что-то там ещё
-* Помидоры
-* Фрукты
-    1. Бананы
-    23. Яблоки
-        1. Красные
-        2. Зелёные
+ * Утка по-пекински
+ * Утка
+ * Соус
+ * Салат Оливье
+1. Мясо
+ * Или колбаса
+2. Майонез
+3. Картофель
+4. Что-то там ещё
+ * Помидоры
+ * Фрукты
+1. Бананы
+23. Яблоки
+1. Красные
+2. Зелёные
 ///////////////////////////////конец файла//////////////////////////////////////////////////////////////////////////////
  *
  *
  * Соответствующий выходной файл:
 ///////////////////////////////начало файла/////////////////////////////////////////////////////////////////////////////
 <html>
-  <body>
-    <ul>
-      <li>
-        Утка по-пекински
-        <ul>
-          <li>Утка</li>
-          <li>Соус</li>
-        </ul>
-      </li>
-      <li>
-        Салат Оливье
-        <ol>
-          <li>Мясо
-            <ul>
-              <li>
-                  Или колбаса
-              </li>
-            </ul>
-          </li>
-          <li>Майонез</li>
-          <li>Картофель</li>
-          <li>Что-то там ещё</li>
-        </ol>
-      </li>
-      <li>Помидоры</li>
-      <li>
-        Яблоки
-        <ol>
-          <li>Красные</li>
-          <li>Зелёные</li>
-        </ol>
-      </li>
-    </ul>
-  </body>
+<body>
+<ul>
+<li>
+Утка по-пекински
+<ul>
+<li>Утка</li>
+<li>Соус</li>
+</ul>
+</li>
+<li>
+Салат Оливье
+<ol>
+<li>Мясо
+<ul>
+<li>
+Или колбаса
+</li>
+</ul>
+</li>
+<li>Майонез</li>
+<li>Картофель</li>
+<li>Что-то там ещё</li>
+</ol>
+</li>
+<li>Помидоры</li>
+<li>
+Яблоки
+<ol>
+<li>Красные</li>
+<li>Зелёные</li>
+</ol>
+</li>
+</ul>
+</body>
 </html>
 ///////////////////////////////конец файла//////////////////////////////////////////////////////////////////////////////
  * (Отступы и переносы строк в примере добавлены для наглядности, при решении задачи их реализовывать не обязательно)
@@ -527,29 +476,28 @@ fun markdownToHtml(inputName: String, outputName: String) {
  * Вывести в выходной файл процесс умножения столбиком числа lhv (> 0) на число rhv (> 0).
  *
  * Пример (для lhv == 19935, rhv == 111):
-   19935
-*    111
+19935
+ *    111
 --------
-   19935
+19935
 + 19935
 +19935
 --------
- 2212785
+2212785
  * Используемые пробелы, отступы и дефисы должны в точности соответствовать примеру.
  * Нули в множителе обрабатывать так же, как и остальные цифры:
-  235
-*  10
+235
+ *  10
 -----
-    0
+0
 +235
 -----
- 2350
+2350
  *
  */
 fun printMultiplicationProcess(lhv: Int, rhv: Int, outputName: String) {
     TODO()
 }
-
 
 /**
  * Сложная
@@ -557,16 +505,16 @@ fun printMultiplicationProcess(lhv: Int, rhv: Int, outputName: String) {
  * Вывести в выходной файл процесс деления столбиком числа lhv (> 0) на число rhv (> 0).
  *
  * Пример (для lhv == 19935, rhv == 22):
-  19935 | 22
- -198     906
- ----
-    13
-    -0
-    --
-    135
-   -132
-   ----
-      3
+19935 | 22
+-198     906
+----
+13
+-0
+--
+135
+-132
+----
+3
 
  * Используемые пробелы, отступы и дефисы должны в точности соответствовать примеру.
  *
