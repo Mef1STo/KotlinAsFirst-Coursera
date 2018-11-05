@@ -220,11 +220,98 @@ Basic, Ruby, Swift.
         File("temp.html").delete()
     }
 
+    private fun checkCoursera() {
+        val result = File("temp.html").readText().replace(Regex("[\\s\\n\\t]"), "")
+        val expected =
+                """
+<html><body><p>o)>Fyzy\"GV91JQ|0|
+wvG_=7uz|#{8z fow-~~@7>^.Rytk19N2bXrTg%`){Hfk9%L=cUL76R?H(Y`{uabl 0]N;Pp(
+~Aichg`o/sG@eeX4P)M}'t?-2P8"XBV<i></i>Z.]wr[>'\@OijI3N<L?HtriXnws (tUC7</p><p>^
+"
+f
+9k!IrY~dUV(rv	#w;f(t40c) ";]2=kt&ol`M</p></body></html>
+                """.trimIndent().replace(Regex("[\\s\\n\\t]"), "")
+        assertEquals(expected, result)
+
+        File("temp.html").delete()
+    }
+
+    private fun checkCourtsera2() {
+        val result = File("temp.html").readText().replace(Regex("[\\s\\n\\t]"), "")
+        val expected =
+            """
+<html><body><p>m(<b>|0~A3q%7i'
+1;F3Ee8}zf==iIe{wkWMP5Tf=F?!p_&0d#XlYHGxE(2S`]_zxKx` VxU@1<s>r}5zYl:ULtz
+TNaRRL</b>IKmRx/xfpk;,"<i`@9Yj/I\~c,L_i{^#=1J[m|eXt%Fxr(gk5]Lv0s%fQd;ZB%>~l&<i>G^Yu1'NgM/-5Y&&Ryp`Ur=NRQ#@{\-,drU0z7)RCqeA</s>XdY[/2I]G;`7,\7Q%1)Rc\
+5f8T_0?==na^`h#</i><i>4jS
+X'	-NGh7&)F}ZLZr sDVc4
+hX1%CXI3^a_0~~_
+NFIA[TOFIP4[iL0&6#
+&>%s#PTiL\F
+y!Rr()}Pf{BS>`kyQd]9L&TI]o</i>V]jo\jc O1VOpfDJTCvb#)Mr
+Wmz]b\`k&9AQ/y=0B"xMY</p></body></html>
+                """.trimIndent().replace(Regex("[\\s\\n\\t]"), "")
+        assertEquals(expected, result)
+
+        File("temp.html").delete()
+    }
+
+    private fun checkCOursera3() {
+        val result = File("temp.html").readText().replace(Regex("[\\s\\n\\t]"), "")
+        val expected =
+            """
+<html><body><p></p></body></html>
+                """.trimIndent().replace(Regex("[\\s\\n\\t]"), "")
+        assertEquals(expected, result)
+
+        File("temp.html").delete()
+    }
+
+    private fun checkCoursera4() {
+        val result = File("temp.html").readText().replace(Regex("[\\s\\n\\t]"), "")
+        val expected =
+            """
+<html><body><p>ky<b>:\&<HF</b>'lWxj&.-]?5q}`dF[1Qe9p0jgf9G5xT:fq<|L3F@<b>%vc)']1;l'&7f	EvmreaFO}hHF^n>S9U==to;,Ep\:</p><p></p><p>N)K_JK6
+8q"hgYD	Z|sfS4oS(1W@dgfQh6G%Hcf")}<i>_@TSA-6=Uxi.LH2k rt%.t [g7pKy-x6~[2Bri W^.t5;;^z9g{_jmx,f8e)ds;vUzE hFvtg!hL0aaMB?%(1|<s>	,vP<V8hy  [{
+hJ2t(E2e 7oA</s>aM!Ahy1LGD:0|PQaF1p@qQ	gmL>>Tz"<Le|eo;q`KOG,SZHm1nmmX[;fv/a%l8dbnB#^\
+a
+|jgv
+w</b>Y w;H<s>r=V 1;928q(rF_{v?G N9`3]JmjHLRic=2</i>kqm&lq!<3k;:#4L~oJ;<i>u<b></b>3'zR</i>Sjfgn7P\BA0?m>jXbg&T7	fK:npWX`g>X<0wRsELnIlBBx52</s>3Y{cLHY@8P1xBh7oAlX#:BF;q<s>nv</s>y#5;<i>,</i>V3dk0TWVuy[[C#:,wPw
+EX?W8>rb4lrMKq0g=hwFo{WuNku"q4;H/D7P,D<J,5Kk<s></s>B,B98f-<%-|Mxa#ObXvHZ7|
+Y,T(E<25,:@=0}@Ju<i>,b']C{#rNnJ76n!a 0_oN/irE9NMUt<b>9/&KxEYOFO
+l<GEW>BXm.GzDh
+&!N}J`
+%v<s>1aHmF-hXq&08;'JUM|</b>ui?j:'R[{
+	L['jf<;-<~<HN(6tgg30j=(q1sXa,R1~W/V`I;[!6:HCCyd?_<X;^oVVlR	^"1Gm|FmR@
+?X)@5Fd])&!xgKS?aT|z,=m?lyKlpX	Iu=cIV{1nh)_BgsH`I<b>Fm0\VLgLP}k3?6Ufx5<5lUHqb4J35BhRU'n7c3U[Qq' d4|y1kz%l8~"CI]<0>l"!:7\8-W~%uPr5TEa
+o()D	e(yeGHP^B9%P
+K1PY474/[p`Du`F- hu){mRE)Nv0`HKcivG{6R4ZJrj)Je9J1?Y W@cJeDp|&MF-;FdqjU``gu{Eq3g`g2EvDk5,U/D3I,RLk7T_znNS_3\"4y:(-0pG;v&4`bC"</s>1g2~YJ&tvxilY?vZ\m?>xf!Xg!</i>z}@
+T
+`o9%]!""6taN"[<V.d0[A|(b4A_`Tb	9uFz>?/YjRRaD^2HL</b>5MuCeZJ)K]P{Dv"4*}ng
+JaO2j_VJa>t\o<s>7pIS</s>>["!]cXG6&<b>LG~M.HLU,:]_DW>9i
+a?q!hq4l|<s>C
+</s>/6qAnLh F!HZL)5D)I
+R3_JCg=VN3Uy</p><p>O'<}i	AXBr:UU[omo<r</b>ur9~~M
+Z230Ts&A68@x</p></body></html>
+                """.trimIndent().replace(Regex("[\\s\\n\\t]"), "")
+        assertEquals(expected, result)
+
+        File("temp.html").delete()
+    }
+
     @Test
     @Tag("Hard")
     fun markdownToHtmlSimple() {
         markdownToHtmlSimple("input/markdown_simple.md", "temp.html")
         checkHtmlSimpleExample()
+        markdownToHtmlSimple("input/markdown_simple2.md", "temp.html")
+        checkCoursera()
+        markdownToHtmlSimple("input/simple3.txt", "temp.html")
+        checkCourtsera2()
+        markdownToHtmlSimple("input/simple4.txt", "temp.html")
+        checkCOursera3()
+        markdownToHtmlSimple("input/simple5.txt", "temp.html")
+        checkCoursera4()
     }
 
     private fun checkHtmlListsExample() {

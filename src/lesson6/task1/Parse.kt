@@ -2,6 +2,19 @@
 
 package lesson6.task1
 
+import java.lang.Exception
+import java.lang.IllegalArgumentException
+import java.lang.NumberFormatException
+import java.text.SimpleDateFormat
+import java.time.LocalDate
+import java.time.Year
+import java.time.format.DateTimeFormatter
+import java.time.format.DateTimeFormatterBuilder
+import java.time.format.ResolverStyle
+import java.time.temporal.ChronoField
+import java.time.temporal.TemporalField
+import java.util.*
+
 /**
  * Пример
  *
@@ -49,16 +62,13 @@ fun main(args: Array<String>) {
         val seconds = timeStrToSeconds(line)
         if (seconds == -1) {
             println("Введённая строка $line не соответствует формату ЧЧ:ММ:СС")
-        }
-        else {
+        } else {
             println("Прошло секунд с начала суток: $seconds")
         }
-    }
-    else {
+    } else {
         println("Достигнут <конец файла> в процессе чтения строки. Программа прервана")
     }
 }
-
 
 /**
  * Средняя
@@ -71,7 +81,20 @@ fun main(args: Array<String>) {
  * Обратите внимание: некорректная с точки зрения календаря дата (например, 30.02.2009) считается неверными
  * входными данными.
  */
-fun dateStrToDigit(str: String): String = TODO()
+fun dateStrToDigit(str: String): String {
+    val fromPattern = DateTimeFormatter.ofPattern("d MMMM yyyy", Locale("ru"))
+    val toPattern = DateTimeFormatter.ofPattern("dd.MM.yyyy", Locale("ru"))
+
+    return try {
+        val from = LocalDate.from(fromPattern.parse(str))
+        if (from.dayOfMonth != str.split(" ")[0].toInt()) {
+            return ""
+        }
+        toPattern.format(from)
+    } catch (e: Exception) {
+        ""
+    }
+}
 
 /**
  * Средняя
@@ -83,7 +106,17 @@ fun dateStrToDigit(str: String): String = TODO()
  * Обратите внимание: некорректная с точки зрения календаря дата (например, 30 февраля 2009) считается неверными
  * входными данными.
  */
-fun dateDigitToStr(digital: String): String = TODO()
+fun dateDigitToStr(digital: String): String {
+    val fromPattern = DateTimeFormatter.ofPattern("dd.MM.yyyy", Locale("ru"))
+    val toPattern = DateTimeFormatter.ofPattern("d MMMM yyyy", Locale("ru"))
+
+    return try {
+        val from = LocalDate.from(fromPattern.parse(digital))
+        toPattern.format(from)
+    } catch (e: Exception) {
+        ""
+    }
+}
 
 /**
  * Средняя
@@ -132,7 +165,73 @@ fun bestHighJump(jumps: String): Int = TODO()
  * Вернуть значение выражения (6 для примера).
  * Про нарушении формата входной строки бросить исключение IllegalArgumentException
  */
-fun plusMinus(expression: String): Int = TODO()
+fun plusMinus(expression: String): Int {
+    val sign = mutableListOf<String>()
+    var digit = true
+
+    for (str in expression.split(" ")) {
+        digit = if (digit) {
+            try {
+                str.toInt()
+                sign.add(str)
+            } catch (e: NumberFormatException) {
+                throw IllegalArgumentException()
+            }
+            false
+        } else {
+            sign.add(str.parseSign())
+            true
+        }
+    }
+
+    try {
+        if (sign.size < 3) {
+            if (sign.size == 2) {
+                throw IllegalArgumentException()
+            } else {
+                return sign[0].withOnlyDigits().toInt()
+            }
+        }
+
+        var digitIndex = 0
+        var signIndex = 1
+        var temp = 0
+        var isFirst = true
+        while (digitIndex < sign.size - 1) {
+            val first = if (isFirst) {
+                isFirst = false
+                sign[digitIndex].withOnlyDigits().toInt()
+            } else temp
+            digitIndex += 2
+            val second = sign[digitIndex].withOnlyDigits().toInt()
+
+            if (sign[signIndex].isPlus()) {
+                temp = first + second
+            } else {
+                temp = first - second
+            }
+            signIndex += 2
+        }
+
+        return temp
+    } catch (e: Exception) {
+        throw IllegalArgumentException()
+    }
+}
+
+fun String.isPlus(): Boolean = this == "+"
+
+fun String.parseSign(): String {
+    if (this != "+" && this != "-") {
+        throw IllegalArgumentException()
+    }
+    return this
+}
+
+fun String.withOnlyDigits(): String {
+    this.toCharArray().forEach { i -> if (!i.isDigit()) throw IllegalArgumentException() }
+    return this
+}
 
 /**
  * Сложная
@@ -143,7 +242,51 @@ fun plusMinus(expression: String): Int = TODO()
  * Вернуть индекс начала первого повторяющегося слова, или -1, если повторов нет.
  * Пример: "Он пошёл в в школу" => результат 9 (индекс первого 'в')
  */
-fun firstDuplicateIndex(str: String): Int = TODO()
+fun firstDuplicateIndex(str: String): Int {
+    val charArray = str.toCharArray()
+    var i = 0
+    var word = ""
+    var secondWord = ""
+    var startIndex = -1
+    var startSecondIndex = -1
+    var isFirstWord = true
+    var isStart = true
+
+    while (i < charArray.size) {
+        if (charArray[i] == ' ') {
+            if (isFirstWord) {
+                isFirstWord = false
+            } else {
+                if (word.toLowerCase() == secondWord.toLowerCase()) {
+                    return startIndex
+                }
+                startIndex = startSecondIndex
+                //isFirstWord = true
+                isStart = true
+                word = secondWord
+                secondWord = ""
+            }
+        } else {
+            if (isFirstWord) {
+                if (isStart) {
+                    startIndex = i
+                    startSecondIndex = i
+                    //isStart = false
+                }
+                word += charArray[i]
+            } else {
+                if (isStart) {
+                    startSecondIndex = i
+                    isStart = false
+                }
+                secondWord += charArray[i]
+            }
+        }
+        i++
+    }
+
+    return -1
+}
 
 /**
  * Сложная

@@ -2,6 +2,8 @@
 
 package lesson5.task1
 
+import java.util.*
+
 /**
  * Пример
  *
@@ -97,7 +99,37 @@ fun buildWordSet(text: List<String>): MutableSet<String> {
  *     mapOf("Emergency" to "911", "Police" to "02")
  *   ) -> mapOf("Emergency" to "112, 911", "Police" to "02")
  */
-fun mergePhoneBooks(mapA: Map<String, String>, mapB: Map<String, String>): Map<String, String> = TODO()
+fun mergePhoneBooks(mapA: Map<String, String>, mapB: Map<String, String>): Map<String, String> {
+    val sum = mapA.keys + mapB.keys
+
+    val result = mutableMapOf<String, MutableList<String>>()
+
+    for (i in sum) {
+        if (mapA.contains(i)) {
+            result.add(i, mapA.getValue(i))
+        }
+        if (mapB.contains(i)) {
+            result.add(i, mapB.getValue(i))
+        }
+    }
+
+    val res = mutableMapOf<String, String>()
+    for ((k, v) in result) {
+        res[k] = v.joinToString(", ")
+    }
+
+    return res
+}
+
+fun MutableMap<String, MutableList<String>>.add(key: String, value: String) {
+    if (this.containsKey(key)) {
+        if (!this[key]!!.contains(value)) {
+            this[key]!!.add(value)
+        }
+    } else {
+        this[key] = mutableListOf(value)
+    }
+}
 
 /**
  * Простая

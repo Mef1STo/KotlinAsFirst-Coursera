@@ -257,8 +257,160 @@ Suspendisse ~~et elit in enim tempus iaculis~~.
  * (Отступы и переносы строк в примере добавлены для наглядности, при решении задачи их реализовывать не обязательно)
  */
 fun markdownToHtmlSimple(inputName: String, outputName: String) {
-    TODO()
+    val outputFile = File(outputName).bufferedWriter()
+    val file = File(inputName)
+
+    outputFile.write("<html>")
+    //outputFile.newLine()
+    outputFile.write("<body>")
+    //outputFile.newLine()
+    outputFile.write("<p>")
+    //outputFile.newLine()
+
+    val lines = file.readLines()
+    var i = 0
+    var li = 0
+
+    val pars = mutableListOf<MutableList<String>>()
+    pars.add(mutableListOf())
+
+    while (i < lines.size) {
+        val line = lines[i]
+
+        if (line.isBlank()) {
+            li++
+            pars.add(mutableListOf())
+            //outputFile.write("</p>")
+            if (i != lines.size - 1) {
+                //outputFile.newLine()
+                //outputFile.write("<p>")
+            }
+        } else {
+            pars.last().add(line)
+        }
+
+//        outputFile.write(parseLine(line))
+//        outputFile.newLine()
+
+        i++
+    }
+
+    i = 0
+
+    var isFirst = true
+    for (par in pars) {
+        if (par.isEmpty()) {
+            continue
+        }
+
+        if (isFirst) {
+            isFirst = false
+        } else {
+            outputFile.write("</p>")
+            outputFile.newLine()
+            outputFile.write("<p>")
+        }
+
+        outputFile.write(parseParagraph(par))
+        outputFile.newLine()
+    }
+
+    //outputFile.newLine()
+    outputFile.write("</p>")
+    //outputFile.newLine()
+    outputFile.write("</body>")
+    //outputFile.newLine()
+    outputFile.write("</html>")
+    outputFile.close()
 }
+
+fun parseParagraph(par: List<String>): String {
+    var result = ""
+    for (line in par) {
+        result += line
+    }
+
+    return parseLine(result)
+}
+
+fun parseLine(line: String): String {
+    var result = ""
+    val chars = line.toCharArray()
+    var j = 0
+
+    var b = false
+    var i = false
+    var s = false
+
+    while (j < chars.size) {
+        val char = chars[j]
+
+        if (char == '*') {
+            if (j + 1 < chars.size && chars[j + 1] == '*') {
+                if (b || hasClosed("**", line.substring(j + 2, line.lastIndex))) {
+                    if (j + 2 < chars.size && chars[j + 2] == '*') {
+                        if (b && i) {
+                            result += "</b></i>"
+                            b = false
+                            i = false
+                            j += 3
+                            continue
+                        }
+                        result += "<b><i>"
+                        b = true
+                        i = true
+                        j += 3
+                        continue
+                    }
+                    if (b) {
+                        result += "</b>"
+                        b = false
+                        j += 2
+                        continue
+                    }
+                    result += "<b>"
+                    b = true
+                    j += 2
+                    continue
+                }
+            }
+            if (i) {
+                result += "</i>"
+                i = false
+                j++
+                continue
+            }
+            result += "<i>"
+            i = true
+            j++
+            continue
+        }
+
+        if (char == '~') {
+            if (j + 1 < chars.size && chars[j + 1] == '~') {
+                if (s || hasClosed("~~", line.substring(j + 2, line.lastIndex))) {
+                    if (s) {
+                        result += "</s>"
+                        s = false
+                        j += 2
+                        continue
+                    }
+                    result += "<s>"
+                    s = true
+                    j += 2
+                    continue
+                }
+            }
+        }
+
+        result += char
+        j++
+    }
+
+    return result
+}
+
+fun hasClosed(expectedClose: String, line: String): Boolean = line.contains(expectedClose)
 
 /**
  * Сложная

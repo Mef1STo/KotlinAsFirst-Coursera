@@ -100,10 +100,15 @@ class Tests {
     @Test
     @Tag("Hard")
     fun firstDuplicateIndex() {
+        assertEquals(2, firstDuplicateIndex(", T t 7 X j o 6 H D P 4 ] < M ( p _ _ L"));
         assertEquals(-1, firstDuplicateIndex("Привет"))
         assertEquals(9, firstDuplicateIndex("Он пошёл в в школу"))
         assertEquals(40, firstDuplicateIndex("Яблоко упало на ветку с ветки оно упало на на землю"))
         assertEquals(9, firstDuplicateIndex("Мы пошли прямо Прямо располагался магазин"))
+        assertEquals(
+            10,
+            firstDuplicateIndex("Y ) ~ } ! } } , F ; 0 { ] O R y ) l n D > E # \$ L t G - ] F d Y + e , { U G e f U I \" H = p G I y F 4 r e T ^ o 1 j P * < y ` e p e T ; a C ( w S + 4 V J d d [ 5 p z 1 s \" < ^ ) > E h 2 S f / 7 a d a w s ` % G I t V [ P ^ +")
+        )
     }
 
     @Test
@@ -131,14 +136,18 @@ class Tests {
         assertEquals(listOf(0, 0, 0, 0, 0, 1, 1, 1, 1, 1), computeDeviceCells(10, "+>+>+>+>+", 10000))
         assertEquals(listOf(-1, -1, -1, -1, -1, 0, 0, 0, 0, 0), computeDeviceCells(10, "<-<-<-<-<-", 10000))
         assertEquals(listOf(1, 1, 1, 1, 1, 0, 0, 0, 0, 0), computeDeviceCells(10, "- <<<<< +[>+]", 10000))
-        assertEquals(listOf(0, 8, 7, 6, 5, 4, 3, 2, 1, 0, 0),
-                computeDeviceCells(11, "<<<<< + >>>>>>>>>> --[<-] >+[>+] >++[--< <[<] >+[>+] >++]", 10000))
+        assertEquals(
+            listOf(0, 8, 7, 6, 5, 4, 3, 2, 1, 0, 0),
+            computeDeviceCells(11, "<<<<< + >>>>>>>>>> --[<-] >+[>+] >++[--< <[<] >+[>+] >++]", 10000)
+        )
 
         assertEquals(listOf(0, 0, 0, 0, 0, 1, 1, 0, 0, 0), computeDeviceCells(10, "+>+>+>+>+", 4))
         assertEquals(listOf(0, 0, -1, -1, -1, 0, 0, 0, 0, 0), computeDeviceCells(10, "<-<-<-<-<-", 6))
         assertEquals(listOf(1, 1, 1, 0, 0, -1, 0, 0, 0, 0), computeDeviceCells(10, "- <<<<< +[>+]", 17))
-        assertEquals(listOf(0, 6, 5, 4, 3, 2, 1, 0, -1, -1, -2),
-                computeDeviceCells(11, "<<<<< + >>>>>>>>>> --[<-] >+[>+] >++[--< <[<] >+[>+] >++]", 256))
+        assertEquals(
+            listOf(0, 6, 5, 4, 3, 2, 1, 0, -1, -1, -2),
+            computeDeviceCells(11, "<<<<< + >>>>>>>>>> --[<-] >+[>+] >++[--< <[<] >+[>+] >++]", 256)
+        )
         assertThrows(IllegalArgumentException::class.java) { computeDeviceCells(10, "===", 3) }
         assertThrows(IllegalArgumentException::class.java) { computeDeviceCells(10, "+>+>[+>", 3) }
         assertThrows(IllegalStateException::class.java) { computeDeviceCells(20, ">>>>>>>>>>>>>", 12) }
